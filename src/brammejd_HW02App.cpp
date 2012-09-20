@@ -10,6 +10,7 @@ using namespace std;
 
 struct node {
 	node* next;
+	node* prev;
 	int x;
 };
 typedef node *link;
@@ -20,17 +21,19 @@ class brammejd_HW02App : public AppBasic {
 	void mouseDown( MouseEvent event );	
 	void update();
 	void draw();
-	void prepareSettings(Settings* settings);	
+	void prepareSettings(Settings* settings);
 
   private:
-	void insertAfter(node **whereTo, int value);
+	void insertAfter(node *where, int value);
 	void DeleteAfter(node *afterMe);
+	void displayInfo(node *sentinel);
 
 	Surface* mySurface;
 	static const int AppWidth = 800;
 	static const int AppHeight = 600;
 	static const int TextureSize = 1024;
 	int frameNumber;
+	node* sentinel;
 };
 
 void brammejd_HW02App::prepareSettings(Settings* settings){
@@ -38,11 +41,14 @@ void brammejd_HW02App::prepareSettings(Settings* settings){
 	(*settings).setResizable(false);
 }
 
-void brammejd_HW02App::insertAfter(node *whereTo , int value){
+void brammejd_HW02App::insertAfter(node* where , int value){
+	
 	node* ourNode = new node;
+	where->next->prev = ourNode;
 	ourNode ->x = value;
-	ourNode ->next = whereTo ->next;
-	whereTo ->next = ourNode;
+	ourNode ->next = where ->next;
+	ourNode ->prev = where;
+	where ->next = ourNode;
 }
 
 void brammejd_HW02App::DeleteAfter(node* afterMe){
@@ -53,12 +59,29 @@ void brammejd_HW02App::DeleteAfter(node* afterMe){
     temp=NULL;
 }
 
+void brammejd_HW02App::displayInfo(node *sentinel){
+	sentinel = sentinel->next;
+	while(sentinel->x != NULL){
+		console() << sentinel->x << std::endl;
+		sentinel = sentinel->next;
+	}
+	
+}
+
 void brammejd_HW02App::setup()
 {
+	sentinel = new node;
+	sentinel->next = sentinel;
+	sentinel->x = NULL;
+	sentinel->prev = sentinel;
+
 	mySurface = new Surface(TextureSize, TextureSize, false);
 	frameNumber = 0;
 	
-
+	insertAfter(sentinel, 10);
+	insertAfter(sentinel, 20);
+	insertAfter(sentinel, 30);
+	displayInfo(sentinel);
 }
 
 void brammejd_HW02App::mouseDown( MouseEvent event )
@@ -67,8 +90,7 @@ void brammejd_HW02App::mouseDown( MouseEvent event )
 
 void brammejd_HW02App::update()
 {
-	node *sentinel = NULL;
-	insertAfter(sentinel, 4);
+
 }
 
 void brammejd_HW02App::draw()
