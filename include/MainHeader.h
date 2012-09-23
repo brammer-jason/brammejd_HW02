@@ -10,7 +10,7 @@
 #include "cinder/ImageIo.h"
 #include "Resources.h"
 #include "Rect.h"
-
+#include "cinder/Rand.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -24,26 +24,31 @@ struct node {
 	node* prev;
 	Rect* rect;
 };
-typedef node *link;
 
 class brammejd_HW02App : public AppBasic {
   public:
 	void setup();
 	void mouseDown( MouseEvent event );	
+	void keyDown( KeyEvent event );
 	void update();
 	void draw();
 	void prepareSettings(Settings* settings);
 	
+	int currentX;
+	int currentY;
+
+
 	Color8u BGColor;
 
   private:
 	void insertAfter(node *where, Rect* newRect);
 	void Delete(node *deleteMe);
-	void displayInfo(node *sentinel);
 
 	void refreshBackground(uint8_t* dataArray);
 
 	Surface* mySurface;
+	uint8_t* dataArray;
+	Rand rand;
 
 
 	int frameNumber;
@@ -52,5 +57,5 @@ class brammejd_HW02App : public AppBasic {
 	void addRectangle(uint8_t* dataArray, int rectHeight, int rectLength, 
 					  int startX, int startY, Color8u c, bool fill);
 
-	void addCircle(uint8_t* dataArray, int radius, int xCenter, int yCenter, Color8u c, bool fill);
+	//void addCircle(uint8_t* dataArray, int radius, int xCenter, int yCenter, Color8u c, bool fill);
 };

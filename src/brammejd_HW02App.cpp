@@ -23,22 +23,15 @@ void brammejd_HW02App::insertAfter(node* where, Rect* newRect){
 }
 
 void brammejd_HW02App::Delete(node* deleteMe){
-	node* tempPrev = deleteMe->prev;
-	node* tempNext = deleteMe->next;
-	tempPrev->next = tempNext;
-	tempNext->prev = tempPrev;
-    delete deleteMe;
-}
-
-void brammejd_HW02App::displayInfo(node *sentinel){
-	/*
-	//step into the first node after sentinel or loop will not execute
-	sentinel = sentinel->next;
-	while(sentinel->x != NULL){
-		console() << sentinel->x << std::endl;
-		sentinel = sentinel->next;
+	if(deleteMe->rect == NULL){
+		console() << "At Sentinel Node" << endl;
+	} else {
+		node* tempPrev = deleteMe->prev;
+		node* tempNext = deleteMe->next;
+		tempPrev->next = tempNext;
+		tempNext->prev = tempPrev;
+	    delete deleteMe;
 	}
-	*/
 }
 
 void resetBackground(uint8_t* dataArray, Color8u BGColor){
@@ -53,9 +46,51 @@ void resetBackground(uint8_t* dataArray, Color8u BGColor){
 	}
 }
 
+
+
+void brammejd_HW02App::mouseDown( MouseEvent event )
+{
+	Delete(sentinel->next);
+}
+
+void brammejd_HW02App::keyDown( KeyEvent event ){
+	if(event.getCode() == KeyEvent::KEY_RIGHT){
+		if(currentX <= 750 && currentY <= 560){
+			currentX += rand.nextInt(19)+1;
+			currentY += rand.nextInt(9)+1;
+			insertAfter(sentinel, new Rect(rand.nextInt(29)+1, rand.nextInt(29)+1, currentX, currentY,
+						new Color8u(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)), rand.nextBool()));
+		}
+	} else if(event.getCode() == KeyEvent::KEY_LEFT){
+		if(currentX > 20 && currentY > 10){
+			currentX -= rand.nextInt(19)+1;
+			currentY -= rand.nextInt(9)+1;
+			insertAfter(sentinel, new Rect(rand.nextInt(29)+1, rand.nextInt(29)+1, currentX, currentY,
+						new Color8u(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)), rand.nextBool()));
+		}
+	} else if(event.getCode() == KeyEvent::KEY_UP){
+		if(currentX > 10 && currentY > 20){
+			currentX -= rand.nextInt(9)+1;
+			currentY -= rand.nextInt(19)+1;
+			insertAfter(sentinel, new Rect(rand.nextInt(29)+1, rand.nextInt(29)+1, currentX, currentY,
+						new Color8u(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)), rand.nextBool()));
+		}
+	} else if(event.getCode() == KeyEvent::KEY_DOWN){
+		if(currentX < 760 && currentY < 550){
+			currentX += rand.nextInt(9)+1;
+			currentY += rand.nextInt(19)+1;
+			insertAfter(sentinel, new Rect(rand.nextInt(29)+1, rand.nextInt(29)+1, currentX, currentY,
+						new Color8u(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)), rand.nextBool()));
+		}
+	}
+}
+
 void brammejd_HW02App::setup()
 {
 	BGColor = Color8u(255,255,255);
+
+	currentX = 0;
+	currentY = 0;
 
 	sentinel = new node;
 	sentinel->next = sentinel;
@@ -63,25 +98,21 @@ void brammejd_HW02App::setup()
 	sentinel->prev = sentinel;
 
 	mySurface = new Surface(TEXTURESIZE, TEXTURESIZE, false);
+	dataArray = mySurface->getData();
+	
+
 	frameNumber = 0;
 	
-	insertAfter(sentinel, new Rect(20, 20,  0,  0, new Color8u(0,0,0), true));
-	insertAfter(sentinel, new Rect(20, 20, 10, 10, new Color8u(0,0,0), true));
-	insertAfter(sentinel, new Rect(20, 20, 20, 20, new Color8u(0,0,0), true));
-	insertAfter(sentinel, new Rect(20, 20, 30, 30, new Color8u(0,0,0), true));
-}
-
-void brammejd_HW02App::mouseDown( MouseEvent event )
-{
+	insertAfter(sentinel, new Rect(20, 20,  currentX,  currentY, new Color8u(0,0,0), true));
 
 }
 
 void brammejd_HW02App::update()
 {
-	uint8_t* dataArray = mySurface->getData();
+	
 	//Must continuously reset entire background to black to avoid possibly logically deleted shapes from appearing
-	resetBackground(dataArray, BGColor);
-
+	//resetBackground(dataArray, BGColor);
+	dataArray = mySurface->getData();
 	for(node* currentNode = sentinel->next; currentNode->rect != NULL; currentNode = currentNode->next){
 		currentNode->rect->drawRect(dataArray);
 	}
