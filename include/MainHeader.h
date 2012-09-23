@@ -33,10 +33,13 @@ class brammejd_HW02App : public AppBasic {
 	void update();
 	void draw();
 	void prepareSettings(Settings* settings);
+	void reverseList(node* sentinel);
 	
 	int currentX;
 	int currentY;
+	int nodeCount;
 
+	gl::Texture texture;
 
 	Color8u BGColor;
 
@@ -54,8 +57,4 @@ class brammejd_HW02App : public AppBasic {
 	int frameNumber;
 	node* sentinel;
 
-	void addRectangle(uint8_t* dataArray, int rectHeight, int rectLength, 
-					  int startX, int startY, Color8u c, bool fill);
-
-	//void addCircle(uint8_t* dataArray, int radius, int xCenter, int yCenter, Color8u c, bool fill);
 };

@@ -7,11 +7,13 @@ class Rect
 public:
 	Rect(int rectHeight, int rectLength, int startX, int startY, Color8u* c, bool fill);
 	void drawRect(uint8_t* dataArray);
+	int startX;
+	int startY;
 private:
 	int rectHeight;
 	int rectLength;
-	int startX;
-	int startY;
+	//int startX;
+	//int startY;
 	Color8u* c;
 	bool fill;
 };
@@ -61,5 +63,6 @@ void Rect::drawRect(uint8_t* dataArray)
 			rectHeight--;
 		}
 	}
+	rectHeight = staticHeight; //I hate this line of code
 	
 }
