@@ -177,25 +177,25 @@ void brammejd_HW02App::keyDown( KeyEvent event ){
 			showInstructions = true;
 		}
 	} else if(event.getChar() == 'w'){
-		if(currentX < 760 && currentY < 550){
+		if(currentX > 35 && currentY > 35){
 			currentX -= rand.nextInt(20)-10;
 			currentY -= rand.nextInt(19)+1;
 			insertAfter(sentinel, new Circle(rand.nextInt(14)+1, currentX, currentY, new Color8u(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)), rand.nextBool()));
 		}
 	} else if(event.getChar() == 'a'){
-		if(currentX > 15 && currentY > 15){
+		if(currentX > 35 && currentY > 35){
 			currentX -= rand.nextInt(19)+1;
 			currentY -= rand.nextInt(20)-10;
 			insertAfter(sentinel, new Circle(rand.nextInt(14)+1, currentX, currentY, new Color8u(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)), rand.nextBool()));
 		}
 	} else if(event.getChar() == 'd'){
-		if(currentX < 750 && currentY < 560){
+		if(currentX < 765 && currentY < 565){
 			currentX += rand.nextInt(19)+1;
 			currentY += rand.nextInt(20)-10;
 			insertAfter(sentinel, new Circle(rand.nextInt(14)+1, currentX, currentY, new Color8u(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)), rand.nextBool()));
 		}
 	} else if(event.getChar() == 's'){
-		if(currentX < 760 && currentY < 550){
+		if(currentX < 765 && currentY < 565){
 			currentX += rand.nextInt(20)-10;
 			currentY += rand.nextInt(19)+1;
 			insertAfter(sentinel, new Circle(rand.nextInt(14)+1, currentX, currentY, new Color8u(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)), rand.nextBool()));
