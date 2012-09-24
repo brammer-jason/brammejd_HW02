@@ -104,9 +104,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Circle.h" />
     <ClInclude Include="..\include\MainHeader.h" />
     <ClInclude Include="..\include\Rect.h" />
     <ClInclude Include="..\include\Resources.h" />
+    <ClInclude Include="..\include\Shape.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc" />
