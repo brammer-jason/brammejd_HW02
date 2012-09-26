@@ -74,11 +74,19 @@ void Circle::draw(uint8_t* dataArray){
  *A helper method that returned a boolean value that would tell if a given x and y value were contained in the shape
  *its name was derived on the intended use but I couldn't work the bugs out in time
  */
+// **Changed to limit its bounds to the circle itself, rather than a square around the circle
 bool Circle::mouseOverShape(int xValue, int yValue){
-	if(xValue < startX + radius && xValue > startX - radius && 
-	   yValue < startY + radius && yValue > startY - radius){
+	//if(xValue < startX + radius && xValue > startX - radius && 
+	//   yValue < startY + radius && yValue > startY - radius){
+	//	return true;
+	//} else {
+	//	return false;
+	//}
+
+	//**Copied from my code
+	int dist = math<double>().sqrt((startX - xValue) * (startX - xValue) + (startY - yValue) * (startY - yValue));
+	if(dist <= radius)
 		return true;
-	} else {
+	else
 		return false;
-	}
 }
