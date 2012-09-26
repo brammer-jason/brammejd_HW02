@@ -12,6 +12,15 @@
  *		and relay a fix I would appreciate it!!! The code is commented out under the .isLeftDown() mouse event
  */
 
+// **Project peer reviewed by Brandon Dadosky. All my comments are preceded by two asterisks (**)
+// **If you have any questions, feel free to shoot me an email at dadoskbm@muohio.edu
+
+/*
+ * ** Correct me if I'm wrong, but I don't think your supposed to put any code in header files. They should only
+ *    contain declarations of methods/classes/data rather than actual code.
+ * 
+ */
+
 #pragma once
 
 #include "MainHeader.h"
@@ -77,7 +86,8 @@ void brammejd_HW02App::Delete(node* deleteMe){
  */
 void brammejd_HW02App::deleteShape(int xValue, int yValue){
 	node* cur = sentinel->next;
-	while(cur->shape != NULL){
+	while(cur->shape != NULL)
+	{
 		bool willDelete = cur->shape->mouseOverShape(xValue, yValue);
 		if(willDelete){
 			node* prevNode = cur->prev;
@@ -85,7 +95,10 @@ void brammejd_HW02App::deleteShape(int xValue, int yValue){
 			delete cur;
 			prevNode->next = nextNode;
 			nextNode->prev = prevNode;
+			return; // **Added to exit the loop once the item is deleted. Prevents shapes stacked under it from being deleted unintentionally
 		}
+		cur = cur->next; // **The reason why it did not work is you never advanced the current node after you checked it, therefore, it locked up
+						 // in an infinite loop of checking the first item in the list (i.e. sentinal->next)
 	}
 }
 
@@ -123,8 +136,8 @@ void brammejd_HW02App::mouseDown( MouseEvent event )
 {	
 	//Delete() method is called if the left mouse button is clicked
 	if(event.isLeftDown()){
-		Delete(sentinel->next);
-		//deleteShape(event.getX(), event.getY());
+		//Delete(sentinel->next);
+		deleteShape(event.getX(), event.getY());
 	}
 	//reverseList() method is called if the right mouse button is clicked
 	if(event.isRightDown()){
@@ -170,7 +183,7 @@ void brammejd_HW02App::keyDown( KeyEvent event ){
 			insertAfter(sentinel, new Rect(rand.nextInt(29)+1, rand.nextInt(29)+1, currentX, currentY,
 						new Color8u(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)), rand.nextBool()));
 		}
-	} else if(event.getChar() == '?'){
+	} else if(event.getChar() == '/'){ // **Changed to slash, so you don't have to hold down Shift to open/close instructions
 		if(showInstructions){
 			showInstructions = false;
 		} else {
@@ -241,10 +254,12 @@ void brammejd_HW02App::update()
 	//this loop goes through all the nodes and calls the draw function of each shape
 	//this is probably the most important loop in the entire program as it actually draws how the linked list is organized logically
 	//cur must initially be set to sentinel->next to make sure the loop executes at all
-	node* cur = sentinel->next;
+	// **Reversed the draw order of the loop. I did this to cause items on the top of the list to appear on top of others, which
+	// makes it easier to detect which item the mouse clicked on.
+	node* cur = sentinel->prev;
 	while(cur->shape != NULL){
 		cur->shape->draw(dataArray);
-		cur = cur->next;
+		cur = cur->prev;
 	}
 }
 
