@@ -170,6 +170,8 @@ void brammejd_HW02App::keyDown( KeyEvent event ){
 			insertAfter(sentinel, new Rect(rand.nextInt(29)+1, rand.nextInt(29)+1, currentX, currentY,
 						new Color8u(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)), rand.nextBool()));
 		}
+
+		//Comment - You have to press shift and ? key inorder to do this, you can make it where you only have to press the ? and / key if you want
 	} else if(event.getChar() == '?'){
 		if(showInstructions){
 			showInstructions = false;
@@ -236,7 +238,11 @@ void brammejd_HW02App::setup()
 void brammejd_HW02App::update()
 {
 	//Must continuously reset entire background to black to avoid possibly logically deleted shapes from appearing
-	resetBackground(dataArray, BGColor);
+
+	//resetBackground(dataArray, BGColor);
+
+	//i think making the background red makes the picture more fun
+	resetBackground(dataArray, Color8u(255,0,0));
 
 	//this loop goes through all the nodes and calls the draw function of each shape
 	//this is probably the most important loop in the entire program as it actually draws how the linked list is organized logically
